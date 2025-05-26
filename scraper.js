@@ -4,6 +4,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fs = require('fs');
+const { stringToRequirement } = require('./AST.js'); 
 
 const courses = {};
 const unmatched = [];
@@ -56,6 +57,7 @@ function parseCourseDescription($, courseRow, code) {
         console.log('Error parsing course description: ', code);
     }
 }
+
 
 // for now just put the full text, but later will split it based on the , / and ; and grade requirements, etc
 // also look for a strong tag and split it up into two because that usually 
@@ -148,6 +150,15 @@ async function scrapeAllPages(baseUrl, totalPages) {
 (async () => {
     // This url uses page 0 as the first page
     const baseUrl = 'https://artsci.calendar.utoronto.ca/search-courses?course_keyword=CSC&field_section_value=All&field_prerequisite_value=&field_breadth_requirements_value=All';
-    const totalPages = 1;
+    const totalPages = 3;
     await scrapeAllPages(baseUrl, totalPages);
+
+    // if needing to read the json:
+    // fs.readFile('courses.json', 'utf8', (err, data) => {
+    //     if (err) {
+    //         console.error('Error reading file', err);
+    //         return;
+    //     }
+    //     const loaded = JSON.parse(data);
+    // });
 })();
