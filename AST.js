@@ -22,7 +22,7 @@ class And extends Requirement {
 
   toString() {
     if (this.requirements.length === 0) {
-        return [];
+        return '';
     }
     if (this.requirements.length === 1) {
       return this.requirements[0].toString(); // No need for AND if there's only one requirement
@@ -40,7 +40,7 @@ class Or extends Requirement {
 
   toString() {
     if (this.requirements.length === 0) {
-        return [];
+        return '';
     }
     if (this.requirements.length === 1) {
       return this.requirements[0].toString(); // No need for OR if there's only one requirement

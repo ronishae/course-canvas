@@ -1,7 +1,7 @@
 const { stringToRequirement } = require('../AST'); 
 test('handles empty string', () => {
     const result = stringToRequirement('').toString();
-    expect(result).toEqual([]);
+    expect(result).toEqual('');
 });
 
 test('handles single requirement', () => {
