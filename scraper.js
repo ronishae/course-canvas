@@ -151,7 +151,7 @@ async function scrapeAllPages(baseUrl, totalPages) {
     // This url uses page 0 as the first page
     const baseUrl = 'https://artsci.calendar.utoronto.ca/search-courses?course_keyword=CSC&field_section_value=All&field_prerequisite_value=&field_breadth_requirements_value=All';
     const totalPages = 3;
-    await scrapeAllPages(baseUrl, totalPages);
+    // await scrapeAllPages(baseUrl, totalPages);
 
     // if needing to read the json:
     // fs.readFile('courses.json', 'utf8', (err, data) => {
@@ -161,4 +161,6 @@ async function scrapeAllPages(baseUrl, totalPages) {
     //     }
     //     const loaded = JSON.parse(data);
     // });
+
+    console.log(stringToRequirement('CSC110 / (CSC111, CSC112)').toString(debug=true));
 })();

@@ -20,14 +20,17 @@ class And extends Requirement {
     this.requirements = requirements;
   }
 
-  toString() {
-    if (this.requirements.length === 0) {
-        return '';
+  toString(debug = false) {
+    if (!debug) {
+        if (this.requirements.length === 0) {
+            return '';
+        }
+        if (this.requirements.length === 1) {
+            return this.requirements[0].toString(); // No need for AND if there's only one requirement
+        }
     }
-    if (this.requirements.length === 1) {
-      return this.requirements[0].toString(); // No need for AND if there's only one requirement
-    }
-    return `AND(${this.requirements.map(r => r.toString()).join(", ")})`;
+    
+    return `AND(${this.requirements.map(r => r.toString(debug)).join(", ")})`;
   }
 }
 
@@ -38,14 +41,16 @@ class Or extends Requirement {
     this.requirements = requirements;
   }
 
-  toString() {
-    if (this.requirements.length === 0) {
-        return '';
+  toString(debug = false) {
+    if (!debug) {
+        if (this.requirements.length === 0) {
+            return '';
+        }
+        if (this.requirements.length === 1) {
+            return this.requirements[0].toString(); // No need for OR if there's only one requirement
+        }
     }
-    if (this.requirements.length === 1) {
-      return this.requirements[0].toString(); // No need for OR if there's only one requirement
-    }
-    return `OR(${this.requirements.map(r => r.toString()).join(", ")})`;
+    return `OR(${this.requirements.map(r => r.toString(debug)).join(", ")})`;
   }
 }
 
