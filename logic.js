@@ -219,8 +219,8 @@ async function loadCourses() {
         selector: 'edge.solid-edge',
         style: {
           'width': 2,
-          'line-color': '#ccc',
-          'target-arrow-color': '#ccc',
+          'line-color': '#2ecc71',
+          'target-arrow-color': '#2ecc71',
           'target-arrow-shape': 'triangle',
           'curve-style': 'bezier',
           'line-style': 'solid'
@@ -231,7 +231,7 @@ async function loadCourses() {
         selector: 'edge.dotted-edge',
         style: {
           'width': 2,
-          'line-color': '#999',
+          'line-color': '#f39c12',
           'target-arrow-color': '#999',
           'target-arrow-shape': 'triangle',
           'curve-style': 'bezier',
@@ -254,7 +254,7 @@ async function loadCourses() {
       rankDir: 'BT',
       nodeSep: 50,
       edgeSep: 10,
-      rankSep: 75
+      rankSep: 45
     }
   });
 
