@@ -2,8 +2,8 @@ cytoscape.use(cytoscapeDagre);
 
 // Load courses.json from the same folder
 async function loadCourses() {
-  const res = await fetch('./testdata.json');
-  // const res = await fetch('./courses.json');
+  // const res = await fetch('./testdata.json');
+  const res = await fetch('./courses.json');
   if (!res.ok) {
     console.error('Failed to load courses.json');
     return;
@@ -66,7 +66,7 @@ async function loadCourses() {
     }
 
     // Recursive case: AND or OR
-    if (req instanceof And || req instanceof Or) {
+    if (req instanceof Requirement) {
       // Only one child, no intermediate required; keep walking the tree
       // Or if it is a root node (0 prerequisites), do not have a logic node into it
       if (req.requirements.length <= 1) {
@@ -75,33 +75,48 @@ async function loadCourses() {
       }
 
       // case with multiple children
-      const logicType = req instanceof And ? 'And' : 'Or';
+      var logicType = '';
+      if (req instanceof And) {
+        logicType = 'And';
+      }
+      else if (req instanceof Or) {
+        logicType = 'Or';
+      }
+      else {
+        logicType = 'GradeRequirement';
+      }
       const logicNodeId = generateLogicNodeId(logicType);
 
       // Add logic node
       nodes.add(logicNodeId);
       node_info[logicNodeId] = {
-        label: logicNodeId,
+        label: req instanceof GradeRequirement ? req.minGrade * 100 + '%' : logicNodeId,
         classes: [logicType.toLowerCase(), 'logic']
       };
 
       edges.push({ source: logicNodeId, target: targetCourse });
       edge_info.push({ style: 'solid-edge' });
 
-      // Recursively connect each child into the logic node
-      console.log(logicNodeId, req.requirements);
-      for (const childReq of req.requirements) {
-        if (typeof childReq === 'string') {
-          const prereq = childReq;
-          addCourseIfMissing(prereq);
+      if (req instanceof GradeRequirement) {
+        walkRequirementTree(req.requirements, logicNodeId);
+      }
+      else {
+        // Recursively connect each child into the logic node
+        // console.log(logicNodeId, req.requirements);
+        for (const childReq of req.requirements) {
+          if (typeof childReq === 'string') {
+            const prereq = childReq;
+            addCourseIfMissing(prereq);
 
-          edges.push({ source: prereq, target: logicNodeId });
-          edge_info.push({
-            style: logicType === 'And' ? 'solid-edge' : 'dotted-edge'
-          });
-        } else {
-          // Pass logicNodeId as the new target, so the final descendant connects to it
-          walkRequirementTree(childReq, logicNodeId);
+            edges.push({ source: prereq, target: logicNodeId });
+            // TODO: update for grade requirement nodes
+            edge_info.push({
+              style: logicType === 'And' ? 'solid-edge' : 'dotted-edge'
+            });
+          } else {
+            // Pass logicNodeId as the new target, so the final descendant connects to it
+            walkRequirementTree(childReq, logicNodeId);
+          }
         }
       }
     }
@@ -152,7 +167,7 @@ async function loadCourses() {
           'background-color': '#3498db',
           'label': 'data(label)',
           'shape': 'round-rectangle',
-          'color': '#fff',
+          'color': '#000',
           'font-size': 12,
           'text-valign': 'center',
           'text-halign': 'center',
@@ -166,7 +181,7 @@ async function loadCourses() {
         style: {
           'background-color': '#e74c3c',
           'label': 'data(label)',
-          'color': '#fff',
+          'color': '#000',
           'shape': 'ellipse'
         }
       },
@@ -191,6 +206,12 @@ async function loadCourses() {
         selector: 'node.or',
         style: {
           'background-color': '#f39c12',
+        }
+      },
+      {
+        selector: 'node.grade_requirement',
+        style: {
+          'background-color': '#9b59b6',
         }
       },
       // Solid edge (default)

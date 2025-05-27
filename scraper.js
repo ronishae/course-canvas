@@ -154,13 +154,15 @@ async function scrapeAllPages(baseUrl, totalPages) {
     // await scrapeAllPages(baseUrl, totalPages);
 
     // if needing to read the json:
-    // fs.readFile('courses.json', 'utf8', (err, data) => {
-    //     if (err) {
-    //         console.error('Error reading file', err);
-    //         return;
-    //     }
-    //     const loaded = JSON.parse(data);
-    // });
+    fs.readFile('courses.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading file', err);
+            return;
+        }
+        const loaded = JSON.parse(data);
+        console.log(stringToRequirement(loaded['CSC384'].prerequisite).toString(debug=true));
+    });
 
-    console.log(stringToRequirement('CSC110 / (CSC111, CSC112)').toString(debug=true));
+    // console.log(stringToRequirement('CSC110 / (CSC111, CSC112)').toString(debug=true));
+    
 })();
