@@ -139,7 +139,8 @@ async function loadCourses() {
           source: e.source,
           target: e.target
         },
-        classes: edge_info[i]?.style === 'dotted' ? 'dotted-edge' : 'solid-edge'
+        // Use the style from edge_info or default to 'solid-edge'
+        classes: edge_info[i]?.style || 'solid-edge'
       }))
     ],
 
