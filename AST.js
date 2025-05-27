@@ -109,4 +109,21 @@ function stringToRequirement(str) {
     const andObject = new And(andOrParts);
     return andObject;
 }
-module.exports = { stringToRequirement };
+
+// Export for Node (CommonJS)
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = {
+    Requirement,
+    And,
+    Or,
+    stringToRequirement
+  };
+}
+
+// Export for Browser (ES Module-style global)
+if (typeof window !== 'undefined') {
+  window.Requirement = Requirement;
+  window.And = And;
+  window.Or = Or;
+  window.stringToRequirement = stringToRequirement;
+}

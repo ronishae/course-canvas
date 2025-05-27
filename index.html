@@ -1,0 +1,25 @@
+<!-- rename this to index.html to run -->
+<!-- npx serve . to run -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Course Dependency Graph</title>
+  <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js"></script>
+  <script src="https://unpkg.com/cytoscape-dagre/cytoscape-dagre.js"></script>
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+  <style>
+    #cy {
+      width: 80%;
+      height: 95vh;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="cy"></div>
+
+  <script src="AST.js"></script>
+  <script src="logic.js"></script>
+</body>
+</html>
